@@ -226,7 +226,8 @@ with tab1:
                             st.warning("⚠️ Scintillation detected. Signal quality is compromised.")
                             if st.button("RETURN AMOUNT (REFUND)", key="refund_moment"):
                                 st.session_state.balance += CHARGE_PER_CALL
-                                st.success(f"₦{CHARGE_PER_CALL:,.2f} has been returned to your balance!")
+                                display_charge_card(CHARGE_PER_CALL, is_refund=True)
+                                st.success(f"✅ ₦{CHARGE_PER_CALL:,.2f} has been returned to your balance!")
                                 st.rerun()
                         
                     with m_col2:
@@ -281,7 +282,8 @@ with tab2:
                             st.warning("⚠️ Scintillation detected. Data reliability is low.")
                             if st.button("RETURN AMOUNT (REFUND)", key="refund_segment"):
                                 st.session_state.balance += CHARGE_PER_CALL
-                                st.success(f"₦{CHARGE_PER_CALL:,.2f} has been returned to your balance!")
+                                display_charge_card(CHARGE_PER_CALL, is_refund=True)
+                                st.success(f"✅ ₦{CHARGE_PER_CALL:,.2f} has been returned to your balance!")
                                 st.rerun()
                         
                     with s_col2:
