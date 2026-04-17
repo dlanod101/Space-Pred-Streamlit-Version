@@ -196,9 +196,6 @@ with tab1:
         
     with col2:
         if predict_btn:
-            # Simulate initial charge
-            st.session_state.balance -= CHARGE_PER_CALL
-            
             with st.spinner("Analyzing neural streams..."):
                 res = get_prediction("predict_moment", {"sample_idx": sample_idx, "moment_idx": moment_idx}, base_url)
                 
@@ -207,6 +204,11 @@ with tab1:
                 else:
                     event = res.get("predicted_event", "Normal")
                     vulnerability = res.get("predicted_vulnerability", 0.0)
+                    
+                    # Only deduct if NOT Scintillation
+                    if event != "Scintillation":
+                        st.session_state.balance -= CHARGE_PER_CALL
+                    
                     info = EVENT_INFO.get(event, EVENT_INFO["Normal"])
                     
                     m_col1, m_col2 = st.columns(2)
@@ -220,13 +222,13 @@ with tab1:
                             </div>
                         """, unsafe_allow_html=True)
                         
-                        display_charge_card(CHARGE_PER_CALL)
+                        if event != "Scintillation":
+                            display_charge_card(CHARGE_PER_CALL)
+                        else:
+                            st.info("✅ No charge for Scintillation events!")
                         
                         if event == "Scintillation":
                             st.warning("⚠️ Scintillation detected. Signal quality is compromised.")
-                            if st.button("RETURN AMOUNT (REFUND)", key="refund_moment"):
-                                st.session_state.balance += 2500
-                                st.success("✅ ₦2,500.00 has been returned to your balance!")
                         
                     with m_col2:
                         st.plotly_chart(create_gauge(vulnerability, "VULNERABILITY INDEX"), use_container_width=True)
@@ -246,9 +248,6 @@ with tab2:
         
     with col2:
         if seg_btn:
-            # Simulate initial charge
-            st.session_state.balance -= CHARGE_PER_CALL
-            
             with st.spinner("Processing temporal data..."):
                 res = get_prediction("predict_segment", {
                     "sample_idx": sample_idx, 
@@ -261,6 +260,11 @@ with tab2:
                 else:
                     event = res.get("predicted_event", "Normal")
                     vulnerability = res.get("predicted_vulnerability", 0.0)
+                    
+                    # Only deduct if NOT Scintillation
+                    if event != "Scintillation":
+                        st.session_state.balance -= CHARGE_PER_CALL
+                    
                     info = EVENT_INFO.get(event, EVENT_INFO["Normal"])
                     
                     s_col1, s_col2 = st.columns(2)
@@ -274,13 +278,13 @@ with tab2:
                             </div>
                         """, unsafe_allow_html=True)
                         
-                        display_charge_card(CHARGE_PER_CALL)
-
+                        if event != "Scintillation":
+                            display_charge_card(CHARGE_PER_CALL)
+                        else:
+                            st.info("✅ No charge for Scintillation events!")
+                        
                         if event == "Scintillation":
                             st.warning("⚠️ Scintillation detected. Data reliability is low.")
-                            if st.button("RETURN AMOUNT (REFUND)", key="refund_segment"):
-                                st.session_state.balance += 2500
-                                st.success("✅ ₦2,500.00 has been returned to your balance!")
                         
                     with s_col2:
                         st.plotly_chart(create_gauge(vulnerability, "AGGREGATED RISK"), use_container_width=True)
