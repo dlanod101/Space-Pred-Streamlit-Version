@@ -225,10 +225,8 @@ with tab1:
                         if event == "Scintillation":
                             st.warning("⚠️ Scintillation detected. Signal quality is compromised.")
                             if st.button("RETURN AMOUNT (REFUND)", key="refund_moment"):
-                                st.session_state.balance += CHARGE_PER_CALL
-                                display_charge_card(CHARGE_PER_CALL, is_refund=True)
-                                st.success(f"✅ ₦{CHARGE_PER_CALL:,.2f} has been returned to your balance!")
-                                st.rerun()
+                                st.session_state.balance += 2500
+                                st.success("✅ ₦2,500.00 has been returned to your balance!")
                         
                     with m_col2:
                         st.plotly_chart(create_gauge(vulnerability, "VULNERABILITY INDEX"), use_container_width=True)
@@ -281,10 +279,8 @@ with tab2:
                         if event == "Scintillation":
                             st.warning("⚠️ Scintillation detected. Data reliability is low.")
                             if st.button("RETURN AMOUNT (REFUND)", key="refund_segment"):
-                                st.session_state.balance += CHARGE_PER_CALL
-                                display_charge_card(CHARGE_PER_CALL, is_refund=True)
-                                st.success(f"✅ ₦{CHARGE_PER_CALL:,.2f} has been returned to your balance!")
-                                st.rerun()
+                                st.session_state.balance += 2500
+                                st.success("✅ ₦2,500.00 has been returned to your balance!")
                         
                     with s_col2:
                         st.plotly_chart(create_gauge(vulnerability, "AGGREGATED RISK"), use_container_width=True)
